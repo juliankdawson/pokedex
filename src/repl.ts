@@ -10,7 +10,7 @@ export async function startREPL(state: State) {
             return;
         }
 
-        const commandName = words[0];
+        const [commandName, ...argWords] = words;
 
         const cmd = state.commands[commandName];
         if (!cmd) {
@@ -20,7 +20,7 @@ export async function startREPL(state: State) {
         }
 
         try {
-            await cmd.callback(state);
+            await cmd.callback(state, ...argWords);
         } catch (err) {
             console.log((err as Error).message);
         }
